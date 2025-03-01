@@ -4,7 +4,7 @@ export default function Sidebar(){
     <div>
       <div>
         <svg src="src\assets\account.svg"/>
-        <p>Profile</p>
+        <p className="bg-stone-500">Profile</p>
       </div>
       <div>
         <svg/>
