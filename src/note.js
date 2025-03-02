@@ -10,7 +10,7 @@ export default class Note {
         this.id = getNextId();
     }
     get getNoteContent(){
-        return [ title, body ]
+        return { title, body }
     }
     get getDate(){
         return this.date;
@@ -19,28 +19,17 @@ export default class Note {
         return this.id;
     }
     get getAll(){
-        return [
-            this.title,
-            this.body,
-            this.date,
-            this.id
-        ]
+        return {
+            title,
+            body,
+            date,
+            id
+        }
     }
     set setNewTitle(newTitle){
         this.title = newTitle;
     }
     set setNewBody(newBody){
         this.body = newBody;
-    }
-    set setNewContent(newContent){
-        [this.title, this.body] = newContent;
-    }
-    setNewContent(newContent, attribute){
-        if(attribute === 'title')
-            this.setNewTitle(newContent);
-        else if (attribute === 'body')
-            this.setNewBody(newContent);
-        else if (attribute === 'content')
-            this.setNewContent(newContent);
     }
 }
