@@ -2,15 +2,25 @@ import accountIcon from "../assets/account.svg"
 import bookmark from "../assets/bookmark-outline.svg"
 import tools from "../assets/tools.svg";
 import note from "../assets/note-plus.svg";
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import Overlay from './Overlay'
 export default function Sidebar(){ 
   const imgCssClasses = "w-6 h-6 rounded-md";
   const [overlay,setOverlay]= useState(null);
-
+  const [Username, setUserame] = useState('');
+  
+  const name = useRef(null);
+  
+  
   function handleClose (){ 
     setOverlay (null);
+
   }
+
+  function handleName(){
+    setUserame(name.current.value);
+  }
+
   
 
   function handleClick(value){
@@ -19,7 +29,7 @@ export default function Sidebar(){
       setOverlay(
       <Overlay title="Profile" icon={accountIcon} close={handleClose}>
         <div className="flex flex-col">
-          <p>Name : Xin Sheng</p>
+          <p>Name : {Username}</p>
           <p>Birthday : 16/12/2004</p>
           <p>Date Joined : --</p>
         </div>
@@ -31,8 +41,9 @@ export default function Sidebar(){
       setOverlay(
       <Overlay title="Settings" icon={tools} close={handleClose}children>
         <div className="flex flex-col">
-          <p>Xin Sheng</p>
-          <button>Edit</button>
+          <p>Name : {Username}</p>
+           <input ref={name} type="text" placeholder="Enter Name" className="border-amber-600 w-20"/> 
+          <button onClick={handleName} className="hover:cursor-pointer">Edit</button>
         </div>
         <div>
           <p>Birthday</p>
