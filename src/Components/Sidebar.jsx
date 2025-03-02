@@ -7,13 +7,17 @@ import Overlay from './Overlay'
 export default function Sidebar(){ 
   const imgCssClasses = "w-6 h-6 rounded-md";
   const [overlay,setOverlay]= useState(null);
+
+  function handleClose (){ 
+    setOverlay (null);
+  }
   
 
   function handleClick(value){
     
     if(value === 'profile'){
       setOverlay(
-      <Overlay title="Profile" icon={accountIcon}>
+      <Overlay title="Profile" icon={accountIcon} close={handleClose}>
         <div className="flex flex-col">
           <p>Name : Xin Sheng</p>
           <p>Birthday : 16/12/2004</p>
@@ -25,7 +29,7 @@ export default function Sidebar(){
     }
     else if(value === 'settings'){
       setOverlay(
-      <Overlay title="Settings" icon={tools} children>
+      <Overlay title="Settings" icon={tools} close={handleClose}children>
         <div className="flex flex-col">
           <p>Xin Sheng</p>
           <button>Edit</button>
