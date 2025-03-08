@@ -1,13 +1,14 @@
-let nextId = 0;
+let nextId = 2;
 function getNextId (){
     return nextId++;
 }
 export default class Note {
-    constructor (title, body){
+    constructor (title, body, isBookmarked){
         this.title = title;
         this.body = body;
         this.date = Date.now();
         this.id = getNextId();
+        this.isBookmarked = isBookmarked
     }
     get getNoteContent(){
         return { title, body }
@@ -23,13 +24,14 @@ export default class Note {
             title,
             body,
             date,
-            id
+            id,
+            isBookmarked
         }
     }
-    set setNewTitle(newTitle){
-        this.title = newTitle;
-    }
-    set setNewBody(newBody){
-        this.body = newBody;
-    }
+    // set setNewTitle(newTitle){
+    //     this.title = newTitle;
+    // }
+    // set setNewBody(newBody){
+    //     this.body = newBody;
+    // }
 }
