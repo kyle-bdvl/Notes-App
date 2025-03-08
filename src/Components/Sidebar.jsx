@@ -10,19 +10,20 @@ import { useState, } from 'react';
 
 export default function Sidebar() {
   const imgCssClasses = "w-6 h-6 rounded-md";
-  const [setting, setSetting] = useState(false);
-  const [profile,setProfile]= useState(false);
+  const [overlay, setOverlay] = useState({ profile: false, settings: false, bookmarked:false });
   //to set the two-way binding
   const [username, setUsername] = useState("");
-  const[date, setDate] = useState(null);
- 
-  function toggleProfile(){
-    setProfile(!profile);
+  const [date, setDate] = useState(null);
+
+  function toggleOverlay(key) {
+    setOverlay((prevState,) => ({
+      profile: key === "profile" ? !prevState.profile : false,
+      settings: key === "settings" ? !prevState.settings : false,
+      bookmarked: key ==="bookmarked" ? !prevState.bookmarked :false,
+    }));
   }
-  function toggleSetting() {
-    setSetting(!setting);
-  }
-  function handleDateChange(event){
+
+  function handleDateChange(event) {
     setDate(event.target.value);
   }
   function handleNameChange(event) {
@@ -31,16 +32,17 @@ export default function Sidebar() {
 
 
 
+
   return (
     <>
       <aside className="flex flex-col gap-5 bg-neutral-300">
         <div className="flex flex-row items-center gap-2">
           <img className={imgCssClasses} src={accountIcon} />
-          <button onClick={toggleProfile} className="hover:cursor-pointer">Profile</button>
+          <button onClick={() => toggleOverlay("profile")} className="hover:cursor-pointer">Profile</button>
         </div>
         <div className="flex flex-row items-center gap-2">
           <img className={imgCssClasses} src={tools} />
-          <button onClick={toggleSetting} className="hover:cursor-pointer">Settings</button>
+          <button onClick={() => toggleOverlay("settings")} className="hover:cursor-pointer">Settings</button>
 
         </div>
         <div className="flex flex-row items-center gap-2">
@@ -49,13 +51,14 @@ export default function Sidebar() {
         </div>
         <div className="flex flex-row items-center gap-2">
           <img className={imgCssClasses} src={bookmark} />
-          <button  className="hover:cursor-pointer">Bookmarked</button>
+          <button onClick={()=>{toggleOverlay("bookmarked")}} className="hover:cursor-pointer">Bookmarked</button>
         </div>
-        
+
       </aside>
       <div>
-        {setting && <Settings name={username} date={date} changeName={handleNameChange} changeDate={handleDateChange}/>}
-        {profile && <Profile name={username} date={date}/>}
+        {overlay.settings && <Settings name={username} date={date} changeName={handleNameChange} changeDate={handleDateChange} />}
+        {overlay.profile && <Profile name={username} date={date} />}
+        {overlay.bookmarked && <Bookmarked/>}
       </div>
     </>
   );
