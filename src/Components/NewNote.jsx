@@ -1,25 +1,36 @@
-import { useState, useCallback } from "react";
+import { useState} from "react";
 export default function NewNote(handleAddNote){
     const [isAdding, setIsAdding] = useState(false);
     const [newNoteContent, setNewNoteContent] = useState({title: '', body: ''});
-    const editContent = useCallback((newContent, type)=>{
-        setEditModeContent(prevContent => ({
+    const handleSetNewNoteContent = (newContent, type) => {
+        setNewNoteContent(prevContent => ({
             ...prevContent,
             [type]: newContent,
         }));
-    }, [setEditModeContent]);
+    };
+    const cancelEditMode = () => {
+        setNewNoteContent({title: '', body: ''});
+        setIsAdding(false);
+    }
     return(
         <div>
             {isAdding && <>
-                <form action="POST">
-                    <label value="Title"/>
-                    <input type="text" />
-                    <label value="Body"/>
-                    <input type="text" />
-                    <button type="Submit">Create new note</button>
+                <form onSubmit={()=>handleAddNote(newNoteContent.title, newNoteContent.body)}>
+                    <label htmlFor="title">Title</label>
+                    <input className="border-b-1 text-3xl text-amber-500 pl-4 pt-1"
+                        value={newNoteContent.title}
+                        onChange={(e) => handleSetNewNoteContent(e.target.value, "title")}
+                    />
+                    <label htmlFor="body">Body</label>
+                    <input className="text-blue-50 font-medium pl-4 pr-4 pt-2"
+                        value={newNoteContent.body}
+                        onChange={(e) => handleSetNewNoteContent(e.target.value, "body")}
+                    />
+                    <button type="submit" className={buttonCss}>Save Changes</button>
+                    <button type="reset" className={buttonCss} onClick={cancelEditMode}>Cancel Edit</button>
                 </form>
             </>}
-            {!isAdding && <button> + New Content</button>}
+            {!isAdding && <button onClick={()=>setIsAdding(true)}> + New Content</button>}
         </div>
     );
 }
