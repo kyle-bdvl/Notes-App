@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 export default function Note({ noteItem, handleDeleteNote, handleUpdateNote, handleBookmarkNote }) {
     const { title, body, date, id, isBookmarked } = noteItem;
@@ -7,6 +8,7 @@ export default function Note({ noteItem, handleDeleteNote, handleUpdateNote, han
     const buttonCss = "w-auto h-auto pl-3 pr-3 cursor-pointer bg-gray-700 rounded-2xl hover:bg-gray-400 hover:border-b-gray-400 text-amber-500 hover:text-amber-50";
     const isBookmarkedCss = buttonCss + (isBookmarked && " bg-green-400");
     const editContent = (newContent, type) => {
+
         setEditModeContent(prevContent => ({
             ...prevContent,
             [type]: newContent,
