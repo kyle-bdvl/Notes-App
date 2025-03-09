@@ -1,23 +1,25 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Note from "./Note";
 import NewNote from "./NewNote";
 // import noteData from '../noteData';
-const initialNotes = [
+let initialNotes = [
     { title: "Note 1", body: "This is note 1", date: "12-Jan-2025", id: 0, isBookmarked: true },
     { title: "Note 2", body: "This is note 2", date: "12-Feb-2025", id: 1, isBookmarked: false },
     { title: "Note 3", body: "This is note 3", date: "12-Mac-2025", id: 2, isBookmarked: false },
 ];
-let nextId = 2;
-function getNextId() {
-    return nextId++;
-}
+
 function getTodayDate() {
     const date = new Date();
-    return `${date.getFullYear}-${date.getMonth}-${date.getDay}`;
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`;
 }
 
 export default function RenderNotes() {
     const [notes, setNotes] = useState(initialNotes);
+    let id =notes.length;
+    
+    function getNextId() {
+        return id;
+    }
 
     function handleUpdateNote(title, body, id) {
         const updateNoteID = notes.findIndex(note => note.id === id);
@@ -30,33 +32,42 @@ export default function RenderNotes() {
         const deleteNoteID = notes.findIndex(note => note.id === id);
         setNotes(notes.toSpliced(deleteNoteID, 1));
     }
-    function handleAddNote(title, body, isBookmarked) {
+    function handleAddNote(title, body) {
         // push the new note to noteData
         // cause a rerender
-        setNotes(prevNotes => [...prevNotes, { title, body, date: getTodayDate(), id: getNextId(), isBookmarked }]);
+        const newNote ={title,body, date:getTodayDate(), id:getNextId(),isBookmarked:false};
+        
+        setNotes(prevNotes => [...prevNotes, newNote]);
+        initialNotes.push(newNote);
+        
+        
     }
     function handleBookmarkNote(id) {
         const updateNoteID = notes.findIndex(note => note.id === id);
         const newNote = { ...notes[updateNoteID], isBookmarked: !notes[updateNoteID].isBookmarked };
         setNotes(notes.toSpliced(updateNoteID, 1, newNote))
     }
+
+    useEffect(() => {
+        console.log("Notes updated:", notes);
+    }, [notes]);
+    
     return (
         <ul className="flex flex-wrap gap-3 mt-3">
             {notes.map((noteItem) => {
                 return (
-                    <li>
+                    <li key={noteItem.id}>
                         <Note
                             noteItem={noteItem}
                             handleUpdateNote={handleUpdateNote}
                             handleDeleteNote={handleDeleteNote}
-                            key={noteItem.id}
                             handleBookmarkNote={handleBookmarkNote}
                         />
                     </li>
                 );
             })}
             <li>
-                <NewNote handleAddNote={handleAddNote} />
+                <NewNote addNote={handleAddNote} />
             </li>
         </ul>
     );

@@ -2,7 +2,6 @@ import Header from './Components/Header';
 import Sidebar from './Components/Sidebar';
 
 import RenderNotes from './Components/RenderNotes';
-=======
 
 function App() {
  

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Settings({name,date, changeName, changeDate}) {
+export default function Settings({name,date, changeName, changeDate, Delete}) {
   
   //to activate the input bar
   const [input, setInput] = useState(false);
@@ -26,7 +26,7 @@ export default function Settings({name,date, changeName, changeDate}) {
         {dateButton ? <input type="date" value={date} onChange={changeDate} /> :<p>birthday :{date} </p>}
         <button onClick={toggleDate}>{dateButton ? "save" :"Edit"}</button>
       </div>
-      <button className="bg-red-500 caret-blue-50 shadow-red-200 hover:bg-red-700">Delete Account</button>
+      <button onClick={Delete} className="bg-red-500 caret-blue-50 shadow-red-200 hover:bg-red-700">Delete Account</button>
     </div>
   );
 }
