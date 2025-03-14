@@ -15,11 +15,16 @@ function getTodayDate() {
 
 export default function RenderNotes() {
     const [notes, setNotes] = useState(initialNotes);
+    // const [notesID, setNotesId] = useState(initialNotes.length ? initialNotes.length-1 :0);
     let id =notes.length;
-    
     function getNextId() {
         return id;
     }
+    // function getNextID2(){
+    //     let newId = notesID+1
+    //     setNotesId(newId)
+    //     return newId
+    // }
 
     function handleUpdateNote(title, body, id) {
         const updateNoteID = notes.findIndex(note => note.id === id);
@@ -38,6 +43,7 @@ export default function RenderNotes() {
         const newNote ={title,body, date:getTodayDate(), id:getNextId(),isBookmarked:false};
         
         setNotes(prevNotes => [...prevNotes, newNote]);
+        //unnecessary code
         initialNotes.push(newNote);
         
         
@@ -51,7 +57,7 @@ export default function RenderNotes() {
     useEffect(() => {
         console.log("Notes updated:", notes);
     }, [notes]);
-    
+    //we are using this as an example
     return (
         <ul className="flex flex-wrap gap-3 mt-3">
             {notes.map((noteItem) => {

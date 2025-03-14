@@ -5,6 +5,7 @@ import note from "../assets/note-plus.svg";
 import Bookmarked from "./Bookmarked";
 import Settings from "./settings"
 import Profile from "./Profile";
+import NewNote from './NewNote'
 import { useState, } from 'react';
 
 
