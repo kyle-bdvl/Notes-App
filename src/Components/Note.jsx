@@ -1,23 +1,32 @@
-
+import { updateNote, deleteNote, bookmarkNote } from "../store/notesSlice";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
-export default function Note({ noteItem, handleDeleteNote, handleUpdateNote, handleBookmarkNote }) {
+export default function Note({ noteItem }) {
     const { title, body, date, id, isBookmarked } = noteItem;
+    const dispatch = useDispatch();
     const [isEditing, setIsEditing] = useState(false);
     const [editModeContent, setEditModeContent] = useState({ title, body });
     const buttonPanelCss = "flex flex-row justify-end pr-3 pb-3 gap-1 mt-2";
     const buttonCss = "w-auto h-auto pl-3 pr-3 cursor-pointer bg-gray-700 rounded-2xl hover:bg-gray-400 hover:border-b-gray-400 text-amber-500 hover:text-amber-50";
     const isBookmarkedCss = buttonCss + (isBookmarked && " bg-green-400");
     const editContent = (newContent, type) => {
-
         setEditModeContent(prevContent => ({
             ...prevContent,
             [type]: newContent,
         }));
     };
 
+    function handleDeleteNote(){
+        dispatch(deleteNote(id));
+    }
+
+    function handleBookmarkNote(){
+        dispatch(bookmarkNote(id));
+    }
+
     const updateContent = (event) => {
         event.preventDefault();
-        handleUpdateNote(editModeContent.title, editModeContent.body, id);
+        dispatch(updateNote({title: editModeContent.title, body: editModeContent.body, id}));
         setIsEditing(false);
     }
     const cancelEditMode = () => {
